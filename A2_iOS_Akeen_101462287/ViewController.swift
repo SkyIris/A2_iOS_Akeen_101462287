@@ -25,7 +25,21 @@ class ViewController: UIViewController {
         }
     }
     
-    func createProduct(){
+    func createProduct(name: String, details: String, price: Double, provider: String){
+        let newProduct = Product(context:context)
+        newProduct.id = UUID()
+        newProduct.name = name
+        newProduct.details = details
+        newProduct.price = price
+        newProduct.provider = provider
+        
+        do{
+             try context.save()
+        }
+        catch{
+            
+        }
+        
         
     }
     
