@@ -61,10 +61,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @objc func addButtonTapped(){
         let alert = UIAlertController(title: "Add Product", message: "Enter new product details", preferredStyle: .alert)
         
-        alert.addTextField(configurationHandler: nil)
-        alert.addTextField(configurationHandler: nil)
-        alert.addTextField(configurationHandler: nil)
-        alert.addTextField(configurationHandler: nil)
+        alert.addTextField{
+            (textField) in textField.placeholder = "Name"
+        }
+        alert.addTextField{
+            (textField) in textField.placeholder = "Description"
+        }
+        alert.addTextField{
+            (textField) in textField.placeholder = "Price"
+        }
+        alert.addTextField{
+            (textField) in textField.placeholder = "Provider"
+        }
         alert.addAction(UIAlertAction(title:"submit", style: .cancel, handler:{
             _ in
             
