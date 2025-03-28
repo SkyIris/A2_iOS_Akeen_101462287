@@ -53,7 +53,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    
+    @objc func addButtonTapped(){
+        let alert = UIAlertController(title: "Add Product", message: "Enter new product details", preferredStyle: .alert)
+        
+        alert.addTextField(configurationHandler: nil)
+        alert.addTextField(configurationHandler: nil)
+        alert.addTextField(configurationHandler: nil)
+        alert.addTextField(configurationHandler: nil)
+        alert.addAction(UIAlertAction(title:"submit", style: .cancel, handler:{
+            _ in
+            
+            guard let field = alert.textFields?[0], let text = field.text, !text.isEmpty else { return }
+            
+            guard let field2 = alert.textFields?[1], let text2 = field2.text, !text.isEmpty else { return }
+            
+            guard let field3 = alert.textFields?[2], let text3 = field3.text, !text.isEmpty else { return }
+            
+            guard let field4 = alert.textFields?[3], let text4 = field4.text, !text.isEmpty else { return }
+            
+            self.createProduct(name: text, details: text2, price: Double(text3) ?? 0, provider: text4)
+        }))
+        present(alert, animated: true)
+    }
     
     func createProduct(name: String, details: String, price: Double, provider: String){
         let newProduct = Product(context:context)
