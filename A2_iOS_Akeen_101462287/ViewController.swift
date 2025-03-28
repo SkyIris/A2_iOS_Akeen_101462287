@@ -4,7 +4,7 @@
 //
 //  Created by Akeen on 2025-03-26.
 //
-
+import CoreData
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -24,8 +24,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Do any additional setup after loading the view.
         title = "Product List"
         view.addSubview(tableView)
+        showAllProducts()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.frame = view.bounds
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
     }
@@ -36,12 +38,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let product = products[indexPath.row]
+        print(product)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = product.name
         return cell
     }
     
-    func  showAllProducts(){
+    func showAllProducts(){
         do{
             products = try context.fetch(Product.fetchRequest())
             DispatchQueue.main.async{
@@ -70,22 +73,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             guard let field3 = alert.textFields?[2], let text3 = field3.text, !text.isEmpty else { return }
             
             guard let field4 = alert.textFields?[3], let text4 = field4.text, !text.isEmpty else { return }
-            
-            self.createProduct(name: text, details: text2, price: Double(text3) ?? 0, provider: text4)
+            print(text, text2, text3, text4)
+            self.createProduct(productName: text, productDetails: text2, productPrice: Double(text3) ?? 0, productProvider: text4)
         }))
         present(alert, animated: true)
     }
     
-    func createProduct(name: String, details: String, price: Double, provider: String){
-        let newProduct = Product(context:context)
+    func createProduct(productName: String, productDetails: String, productPrice: Double, productProvider: String){
+        let newProduct = Product(context: context)
         newProduct.id = UUID()
-        newProduct.name = name
-        newProduct.details = details
-        newProduct.price = price
-        newProduct.provider = provider
+        newProduct.name = productName
+        newProduct.details = productDetails
+        newProduct.price = productPrice
+        newProduct.provider = productProvider
+        
         
         do{
-             try context.save()
+            try context.save()
+            showAllProducts()
+            print("new product made")
         }
         catch{
             
