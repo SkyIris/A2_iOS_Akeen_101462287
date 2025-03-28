@@ -40,7 +40,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let product = products[indexPath.row]
         print(product)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = product.name
+        cell.textLabel?.text = "\(product.name ?? "name not found"):    \(product.details ?? "no description given")";
+        //cell.textLabel?.text = product.name
+        //cell.detailTextLabel?.text = product.description
         return cell
     }
     
