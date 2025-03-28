@@ -17,6 +17,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return table
     }()
     
+    private var products = [Product]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -24,18 +26,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        return products.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let product = products[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "MyProduct"
+        cell.textLabel?.text = product.name
         return cell
     }
     
     func  showAllProducts(){
         do{
-            let products = try context.fetch(Product.fetchRequest())
+            products = try context.fetch(Product.fetchRequest())
+            DispatchQueue.main.async{
+                self.tableView.reloadData()
+            }
         }
         catch{
             
