@@ -137,13 +137,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
 extension ViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
-        searching = true
-        tableView.reloadData()
+        //searching = true
+        
         searchProducts = products.filter({(product) -> Bool in
-            return ( product.name?.lowercased().contains(searchText.lowercased()) ?? false ||
+             ( product.name?.lowercased().contains(searchText.lowercased()) ?? false ||
                      product.details?.lowercased().contains(searchText.lowercased()) ?? false)
         })
+        searching = true
+        tableView.reloadData()
         
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searching = false
+        searchBar.text = ""
+        tableView.reloadData()
     }
     
 }
