@@ -67,7 +67,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @objc func addButtonTapped(){
         let alert = UIAlertController(title: "Add Product", message: "Enter new product details", preferredStyle: .alert)
-        
         alert.addTextField{
             (textField) in textField.placeholder = "Name"
         }
@@ -117,12 +116,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func searchProduct(){
-        
-    }
+    var searchProduct = [Product]()
 
 
 }
 
-
+extension ViewController: UISearchBarDelegate{
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+        searchProduct = products.filter({(product) -> Bool in
+            return product.name?.lowercased().contains(searchText.lowercased()) ?? false
+        })
+    }
+    
+}
 
