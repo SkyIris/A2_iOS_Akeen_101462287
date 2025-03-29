@@ -10,8 +10,7 @@ import UIKit
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var searchBar: UISearchBar!
-    //@IBOutlet var searchBar: UISearchBar!
-    //@IBOutlet var searchBar: UISearchBar!
+
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let tableView: UITableView = {
@@ -66,6 +65,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
 
         return cell
+    }
+    
+    func tableView(_ tableView:UITableView, didSelectRowAt indexPath: IndexPath){
+        //let selectedIndex = indexPath.row
+        performSegue(withIdentifier: "showProductDetails", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender:Any?){
+        if let destination = segue.destination as? ProductViewController{
+            if(searching)
+            {
+                destination.product = searchProducts[(tableView.indexPathForSelectedRow?.row)!]
+            }
+            else{
+                destination.product = products[(tableView.indexPathForSelectedRow?.row)!]
+            }
+            }
     }
     
     func showAllProducts(){
