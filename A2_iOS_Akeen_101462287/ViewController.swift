@@ -8,7 +8,8 @@ import CoreData
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+    //@IBOutlet var searchBar: UISearchBar!
+    @IBOutlet var searchBar: UISearchBar!
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let tableView: UITableView = {
@@ -18,12 +19,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }()
     
     
+    
     private var products = [Product]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         title = "Product List"
+        self.navigationItem.titleView = searchBar
         view.addSubview(tableView)
         showAllProducts()
         tableView.delegate = self
@@ -31,12 +34,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.frame = view.bounds
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
+
     }
     
-    @objc func searchButtonTapped(){
-    }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return products.count
@@ -44,7 +45,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let product = products[indexPath.row]
-        print(product)
+ 
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = "\(product.name ?? "name not found"):    \(product.details ?? "no description given")";
         //cell.textLabel?.text = product.name
