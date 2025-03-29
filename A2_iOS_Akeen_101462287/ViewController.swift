@@ -10,6 +10,8 @@ import UIKit
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet var searchBar: UISearchBar!
+    //@IBOutlet var searchBar: UISearchBar!
+    //@IBOutlet var searchBar: UISearchBar!
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     let tableView: UITableView = {
