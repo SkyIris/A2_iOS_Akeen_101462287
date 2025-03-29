@@ -40,15 +40,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return products.count
+        if(searching){
+            return searchProducts.count
+        }
+        else{
+            return products.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let product = products[indexPath.row]
- 
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = "\(product.name ?? "name not found"):    \(product.details ?? "no description given")";
-        //cell.textLabel?.text = product.name
+        if(searching)
+        {
+            let searchProduct = searchProducts[indexPath.row]
+            cell.textLabel?.text = "\(searchProduct.name ?? "name not found"):    \(searchProduct.details ?? "no description given")";
+        }
+        else
+        {
+            //tableView.reloadData()
+            let product = products[indexPath.row]
+            cell.textLabel?.text = "\(product.name ?? "name not found"):    \(product.details ?? "no description given")";
+        }
+            //cell.textLabel?.text = product.name
         //cell.detailTextLabel?.text = product.description
         return cell
     }
@@ -116,16 +130,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    var searchProduct = [Product]()
-
+    var searchProducts = [Product]()
+    var searching = false
 
 }
 
 extension ViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
-        searchProduct = products.filter({(product) -> Bool in
-            return product.name?.lowercased().contains(searchText.lowercased()) ?? false
+        searching = true
+        tableView.reloadData()
+        searchProducts = products.filter({(product) -> Bool in
+            return ( product.name?.lowercased().contains(searchText.lowercased()) ?? false ||
+                     product.details?.lowercased().contains(searchText.lowercased()) ?? false)
         })
+        
     }
     
 }
