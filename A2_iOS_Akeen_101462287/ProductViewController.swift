@@ -19,11 +19,10 @@ class ProductViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //productId.text = product?.id
+        //productId.text = String(product!.id)
         productName.text = product?.name
         productDetails.text = product?.details
-        //productPrice.text = Double(product?.price)
+        productPrice.text = String(product!.price)
         productProvider.text = product?.provider
         // Do any additional setup after loading the view.
     }
