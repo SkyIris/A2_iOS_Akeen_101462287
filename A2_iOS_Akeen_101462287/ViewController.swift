@@ -8,7 +8,7 @@ import CoreData
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    //@IBOutlet var searchBar: UISearchBar!
+
     @IBOutlet var searchBar: UISearchBar!
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -58,12 +58,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         else
         {
-            //tableView.reloadData()
+    
             let product = products[indexPath.row]
             cell.textLabel?.text = "\(product.name ?? "name not found"):    \(product.details ?? "no description given")";
         }
-            //cell.textLabel?.text = product.name
-        //cell.detailTextLabel?.text = product.description
+
         return cell
     }
     
@@ -103,7 +102,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             guard let field3 = alert.textFields?[2], let text3 = field3.text, !text.isEmpty else { return }
             
             guard let field4 = alert.textFields?[3], let text4 = field4.text, !text.isEmpty else { return }
-            print(text, text2, text3, text4)
+      
             self.createProduct(productName: text, productDetails: text2, productPrice: Double(text3) ?? 0, productProvider: text4)
         }))
         present(alert, animated: true)
@@ -121,7 +120,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         do{
             try context.save()
             showAllProducts()
-            print("new product made")
+
         }
         catch{
             
